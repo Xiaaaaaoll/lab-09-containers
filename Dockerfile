@@ -1,6 +1,6 @@
 FROM python:3.13-slim
 LABEL org.opencontainers.image.title="book-analysis" \
-      org.opencontainers.image.description="Analyzes Project Gutenberg books from an S3 bucket and stores the results in MongoDB Atlas" \
+      org.opencontainers.image.description="Analyzes Project Gutenberg books from an S3 bucket and stores the results in MongoDB Atlas (DS 2022 Lab 09)" \
       org.opencontainers.image.source="https://github.com/Xiaaaaaoll/lab-09-containers"
 COPY --from=ghcr.io/astral-sh/uv:0.12.18 /uv /bin/uv
 

@@ -28,4 +28,5 @@ Run `docker images book-analysis`, and note the image ID of `book-analysis:0.1.0
 
 Reusing 0.1.0 means someone with a cached copy could use the old image while someone pulling the same tag could get the new one, making it harder to reproduce the exact run. I should have kept 0.1.0 pointing to the original image and tagged the updated image as 0.1.1.
 
-To get the two IDs, run docker images book-analysis and copy the IMAGE ID from the 0.1.0 row. Then edit the description label in your Dockerfile, run docker build -t book-analysis:0.1.0 ., and list the images again. Reusing 0.1.0 for this local experiment is part of the question.
+The image ID before the rebuild was c1c0649ed9c0, and the image ID after the rebuild was 0f8b3c88e037.
+
