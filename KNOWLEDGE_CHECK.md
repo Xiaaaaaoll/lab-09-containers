@@ -8,7 +8,7 @@ Assume you want to share your image with others and make it publicly available o
 
 **Your answer:** Give two reasons why this is a bad idea. Think of who could then read your credentials, and of what happens when your Learner Lab session ends.
 
-...
+Anyone who pulls the public image could extract my AWS credentials from its layers and use them to access AWS resources with my permissions. The credentials would also expire when my Learner Lab session ends, so the image would still contain the old credentials and the analysis would fail.
 
 ## 2. Where did the Atlas password come from?
 
@@ -18,7 +18,7 @@ In Step 4, you ran the analysis once with `-v ~/.aws:/home/app/.aws:ro` only, wi
 
 **Your answer:** Explain, step by step, where the container found the Atlas settings in that run.
 
-...
+Since I left out the -e options, get_atlas_settings() didn’t find MONGODB_ATLAS_URL and fell back to AWS Systems Manager Parameter Store. Boto3 read my AWS credentials from the read-only mount at /home/app/.aws and used them to request the decrypted mongodb_credentials parameter in us-east-1. The function parsed the returned JSON to get the Atlas URL, username, and password.
 
 ## 3. Same tag, different image
 
@@ -26,4 +26,6 @@ Run `docker images book-analysis`, and note the image ID of `book-analysis:0.1.0
 
 **Your answer:** Paste the image ID from before and after the rebuild. Why is it a problem for someone who uses your image that `0.1.0` now names a different image, and what should you have done instead?
 
-...
+Reusing 0.1.0 means someone with a cached copy could use the old image while someone pulling the same tag could get the new one, making it harder to reproduce the exact run. I should have kept 0.1.0 pointing to the original image and tagged the updated image as 0.1.1.
+
+To get the two IDs, run docker images book-analysis and copy the IMAGE ID from the 0.1.0 row. Then edit the description label in your Dockerfile, run docker build -t book-analysis:0.1.0 ., and list the images again. Reusing 0.1.0 for this local experiment is part of the question.
